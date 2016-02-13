@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="pe.edu.cibertec.mybatis.mapper.SolicitudMapper">
+
+        <resultMap id="rmSolicitudModel" 
+               type="pe.edu.cibertec.model.Solicitud">
+        
+        <id column="nroSolicitud"  property="nroSolicitud" jdbcType="VARCHAR"/>
+        <result column="dni" property="dni" jdbcType="VARCHAR"/>
+        <result column="matricula" property="matricula" jdbcType="VARCHAR"/>
+        <result column="estado" property="estado" jdbcType="VARCHAR"/>
+        <result column="fechaSolicitud" property="fechaSolicitud" jdbcType="VARCHAR"/>    
+        <result column="revisionTecnicaFileName" property="revisionTecnicaFileName" jdbcType="VARCHAR"/>
+        <result column="fechaModificacion" property="fechaModificacion" jdbcType="VARCHAR"/>                  
+    	</resultMap>
+    	
+	  	<resultMap type="solicitud" id="rmSolicitudFull" >
+	   		<id column="nroSolicitud" property="nroSolicitud"/>
+	        <result column="dni" property="dni"/> 
+	        <result column="matricula" property="matricula"/>
+	        <result column="estado" property="estado"/> 
+	        <result column="fechaSolicitud" property="fechaSolicitud"/>
+	        
+	        <association property="solicitante" javaType="solicitante">
+	            <result column="nombre" property="nombre" jdbcType="VARCHAR"/> 
+		        <result column="apellidoPaterno" property="apellidoPaterno" jdbcType="VARCHAR"/>    
+		        <result column="apellidoMaterno" property="apellidoMaterno" jdbcType="VARCHAR"/>    
+		        <result column="fechaNacimiento" property="fechaNacimiento" jdbcType="VARCHAR"/>
+		        <result column="sexo" property="sexo" jdbcType="VARCHAR"/>    
+		        <result column="direccion" property="direccion" jdbcType="VARCHAR"/>    
+		        <result column="telefono" property="telefono" jdbcType="VARCHAR"/>  
+		        <result column="correoElectronico" property="correoElectronico" jdbcType="VARCHAR"/>
+	        </association>    
+	        <association property="vehiculo" javaType="vehiculo">
+		        <result column="titular" property="titular" jdbcType="VARCHAR"/> 
+		        <result column="modelo" property="modelo" jdbcType="VARCHAR"/>    
+		        <result column="peso" property="peso" jdbcType="VARCHAR"/>
+		        <result column="longitud" property="longitud" jdbcType="VARCHAR"/>    
+		        <result column="altura" property="altura" jdbcType="VARCHAR"/>   
+	        </association>
+
+	    </resultMap> 
+	    
+    <select id="consultarSolicitudFullxNro" 
+            resultMap="rmSolicitudFull">
+		select s.nroSolicitud, s.dni, s.matricula,s.estado, s.fechaSolicitud,
+		sol.nombre,sol.apellidoPaterno,sol.apellidoMaterno,sol.fechaNacimiento,
+		sol.sexo,sol.direccion,sol.telefono,sol.correoElectronico,v.titular,
+		v.modelo,v.peso,v.longitud,v.altura
+		from tb_solicitud s 
+		inner join tb_solicitante sol on s.dni=sol.dni
+		inner join tb_vehiculo v on s.matricula=v.matricula
+		where s.nroSolicitud=#{nroSolicitud}
+    </select>  
+     
+     <insert id="registrar"
+    		parameterType="solicitud">    	
+    	INSERT INTO TB_Solicitud(nroSolicitud, dni, matricula, estado, fechaSolicitud, revisionTecnica) 
+    	VALUES(#{nroSolicitud},#{dni},#{matricula},#{estado},#{fechaSolicitud},#{revisionTecnicaFileName});
+    		
+    </insert>	
+    
+    <select id="generarNroSolicitud" 
+            resultMap="rmSolicitudModel">
+		select max(nroSolicitud) nroSolicitud, dni, matricula, estado, fechaSolicitud, revisionTecnica  
+		from tb_solicitud
+    </select>
+    
+    <select id="listarSolicitudes" 
+            resultMap="rmSolicitudModel">
+		select nroSolicitud, dni, matricula, e.descripcion as estado, fechaSolicitud, revisionTecnica as revisionTecnicaFileName 
+		from tb_solicitud s inner join tb_estado e on s.estado=e.estado
+    </select>    
+    
+    <select id="listarSolicitudesxNroSolicitud" 
+            resultMap="rmSolicitudModel"
+            parameterType="java.lang.String">
+		select nroSolicitud, dni, matricula, e.descripcion as estado, fechaSolicitud, revisionTecnica as revisionTecnicaFileName 
+		from tb_solicitud s inner join tb_estado e on s.estado=e.estado
+		where nroSolicitud=#{nroSolicitud}
+    </select>    
+    
+    <select id="listarSolicitudesxDni" 
+            resultMap="rmSolicitudModel"
+            parameterType="java.lang.String">
+		select nroSolicitud, dni, matricula, e.descripcion as estado, fechaSolicitud, revisionTecnica as revisionTecnicaFileName 
+		from tb_solicitud s inner join tb_estado e on s.estado=e.estado
+		where dni=#{dni}
+    </select>    
+    
+    <select id="listarSolicitudesxEstado" 
+            resultMap="rmSolicitudModel"
+            parameterType="java.lang.String">
+		select nroSolicitud, dni, matricula, e.descripcion as estado, fechaSolicitud, revisionTecnica as revisionTecnicaFileName 
+		from tb_solicitud s inner join tb_estado e on s.estado=e.estado
+		where e.estado=#{estado}
+    </select>    
+    
+    <select id="getSolicitudPorNro" 
+            resultMap="rmSolicitudModel"
+            parameterType="java.lang.String">
+        SELECT nroSolicitud, dni, matricula
+		FROM tb_solicitud
+		where nroSolicitud=#{nroSolicitud}
+	</select>
+    <select id="getSolicitudPorNroA" 
+            resultMap="rmSolicitudModel"
+            parameterType="java.lang.String">
+        SELECT nroSolicitud, dni, matricula
+		FROM tb_solicitud
+		where nroSolicitud=#{nroSolicitud}
+	</select>
+		
+    <delete id="eliminar" 
+            parameterType="java.lang.String">
+		delete from tb_solicitud 
+		where nroSolicitud={nroSolicitud}
+	</delete>   
+	
+    <update id="modificar"
+    		parameterType="solicitud">    	
+	        update tb_solicitud set 
+	        estado=#{estado},
+			fechaModificacion=#{fechaModificacion},
+			revisionTecnica=#{revisionTecnicaFileName}
+			where nroSolicitud=#{nroSolicitud}
+    </update>	
+    
+    <update id="actualizarEstado"
+    		parameterType="solicitud">    	
+	        update tb_solicitud set 
+			estado=#{estado}
+			where nroSolicitud=#{nroSolicitud}
+    </update>	
+    
+
+</mapper>

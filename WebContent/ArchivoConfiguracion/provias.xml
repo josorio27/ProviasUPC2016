@@ -1,0 +1,9 @@
+<provias>
+  <tabla nombre="vehiculo">
+    <campo>
+      <altura>4</altura>
+      <peso>100</peso>
+      <longitud>22</longitud>
+    </campo>
+  </tabla>
+</provias>

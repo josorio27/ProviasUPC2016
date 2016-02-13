@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration 
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<typeAliases>
+		<typeAlias type="pe.edu.cibertec.model.Usuario" alias="usuario"/>
+		<typeAlias type="pe.edu.cibertec.model.Solicitante" alias="solicitante"/>
+		<typeAlias type="pe.edu.cibertec.model.Vehiculo" alias="vehiculo"/>
+		<typeAlias type="pe.edu.cibertec.model.Solicitud" alias="solicitud"/>
+		<typeAlias type="pe.edu.cibertec.model.Distrito" alias="distrito"/>
+		<typeAlias type="pe.edu.cibertec.model.EstadoCivil" alias="estadoCivil"/>	
+		<typeAlias type="pe.edu.cibertec.model.TipoUsuario" alias="tipoUsuario"/>				
+	</typeAliases>
+	
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="UNPOOLED">
+                <property name="driver" value="com.mysql.jdbc.Driver"/>
+                <property name="url" value="jdbc:mysql://localhost/bd_provias"/>
+                <property name="username" value="root"/>
+                <property name="password" value="mysql"/>
+            </dataSource>
+            
+        </environment>
+    </environments>
+    
+    <mappers>
+    	<mapper resource="pe/edu/cibertec/mybatis/mapper/SolicitanteMapper.xml"/>
+    	<mapper resource="pe/edu/cibertec/mybatis/mapper/VehiculoMapper.xml"/>
+    	<mapper resource="pe/edu/cibertec/mybatis/mapper/SolicitudMapper.xml"/>
+    	<mapper resource="pe/edu/cibertec/mybatis/mapper/UsuarioMapper.xml"/>    	    	
+    </mappers>
+    
+</configuration>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="pe.edu.cibertec.mybatis.mapper.SolicitanteMapper">
+  
+  
+    <resultMap id="rmSolicitanteModel" 
+               type="pe.edu.cibertec.model.Solicitante">
+        <id column="dni"  property="dni" jdbcType="VARCHAR"/>
+        <result column="nombre" property="nombre" jdbcType="VARCHAR"/> 
+        <result column="apellidoPaterno" property="apellidoPaterno" jdbcType="VARCHAR"/>    
+        <result column="apellidoMaterno" property="apellidoMaterno" jdbcType="VARCHAR"/>    
+        <result column="fechaNacimiento" property="fechaNacimiento" jdbcType="VARCHAR"/>
+        <result column="sexo" property="sexo" jdbcType="VARCHAR"/>    
+        <result column="direccion" property="direccion" jdbcType="VARCHAR"/>    
+        <result column="telefono" property="telefono" jdbcType="VARCHAR"/>  
+        <result column="correoElectronico" property="correoElectronico" jdbcType="VARCHAR"/>
+        
+    </resultMap>
+
+  
+  	<select id="getSolicitante" 
+            resultMap="rmSolicitanteModel"
+            parameterType="java.lang.String">
+        SELECT  dni, 
+        		nombre, 
+        		apellidoPaterno, 
+        		apellidoMaterno,
+				fechaNacimiento, 
+				sexo, 
+				direccion, 
+				telefono,
+				correoElectronico 
+		FROM tb_solicitante
+		where dni=#{dni}
+			
+    </select>
+    
+  	<update id="actualizarSolicitante"
+    		parameterType="solicitante">    	
+	        update tb_solicitante set 
+			direccion=#{direccion}, 
+			telefono=#{telefono}, 
+			correoElectronico=#{correoElectronico}
+			where dni=#{dni}
+    </update>	
+
+    <select id="obtenerMailxDni" 
+            resultMap="rmSolicitanteModel"
+            parameterType="java.lang.String">
+ 		select correoElectronico from tb_solicitante
+		where dni=#{dni}
+	</select>    
+    
+</mapper>
+

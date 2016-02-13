@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="pe.edu.cibertec.mybatis.mapper.VehiculoMapper">
+  
+      <resultMap id="rmVehiculoModel" 
+               type="pe.edu.cibertec.model.Vehiculo">
+        
+        <id column="matricula"  property="matricula" jdbcType="VARCHAR"/>
+        <result column="titular" property="titular" jdbcType="VARCHAR"/> 
+        <result column="modelo" property="modelo" jdbcType="VARCHAR"/>    
+        <result column="peso" property="peso" jdbcType="VARCHAR"/>
+        <result column="longitud" property="longitud" jdbcType="VARCHAR"/>    
+        <result column="altura" property="altura" jdbcType="VARCHAR"/>    
+                
+    </resultMap>
+
+  
+  	<select id="getVehiculo" 
+            resultMap="rmVehiculoModel"
+            parameterType="java.lang.String">
+        SELECT  matricula, 
+        		titular, 
+        		modelo,
+				peso, 
+				longitud, 
+				altura 
+		FROM tb_vehiculo
+		where matricula=#{matricula}
+			
+    </select>
+    
+  	  	<update id="actualizarVehiculo"
+    		parameterType="vehiculo">    	
+	        update tb_vehiculo set 
+			peso=#{peso}, 
+			longitud=#{longitud},
+			altura=#{altura}
+			where matricula=#{matricula}
+    </update>	
+    
+</mapper>
+

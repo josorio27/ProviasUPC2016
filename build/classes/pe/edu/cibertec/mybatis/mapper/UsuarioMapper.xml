@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="pe.edu.cibertec.mybatis.mapper.UsuarioMapper">
+  
+      <resultMap id="rmUsuarioModel" 
+               type="pe.edu.cibertec.model.Usuario">
+        <id column="dni" property="dni"/>
+        <result column="username"  property="username" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR"/> 
+        <result column="tipo" property="tipo" jdbcType="VARCHAR"/>    
+        <result column="descripcion" property="descripcion" jdbcType="VARCHAR"/>
+        <result column="session" property="session" jdbcType="VARCHAR"/>
+        <result column="idsession" property="idsession" jdbcType="VARCHAR"/>       
+                
+    </resultMap>
+
+        <resultMap type="usuario" id="rmUsuarioDatosBase">
+   		<id column="dni" property="dni"/>
+   		<result column="username"  property="username"/>
+        <result column="nombres" property="nombres"/> 
+        <result column="apellidos" property="apellidos"/> 
+  	</resultMap>
+  
+  	<resultMap type="usuario" id="rmUsuarioModels">
+   		<id column="dni" property="dni"/>
+        <result column="username" property="username"/> 
+        <result column="nombres" property="nombres"/>
+        <result column="apellidos" property="apellidos"/> 
+        <result column="fechaNacimiento" property="fechaNacimiento"/>
+        <result column="estadoCivil" property="distrito.codigo"/> 
+        <result column="distrito" property="estadoCivil.codigo"/>
+        <result column="correoElectronico" property="correoElectronico"/> 
+        <result column="tipo" property="tipoUsuario.tipo"/>
+  	</resultMap>
+    
+  	<resultMap type="usuario" id="rmUsuarioFull" >
+  	    <id column="dni" property="dni"/>
+        <result column="username" property="username"/> 
+        <result column="nombres" property="nombres"/>
+        <result column="apellidos" property="apellidos"/> 
+        <result column="fechaNacimiento" property="fechaNacimiento"/>
+        <result column="correoElectronico" property="correoElectronico"/> 
+        
+        <association property="distrito" javaType="distrito">
+            <result column="des_dis" property="descripcion"/>
+        </association>    
+        <association property="estadoCivil" javaType="estadoCivil">
+            <result column="des_estCiv" property="descripcion"/>
+        </association>
+        <association property="tipoUsuario" javaType="tipoUsuario">
+            <result column="des_tipUsu" property="descripcion"/>
+        </association>
+    </resultMap> 
+  
+  	
+  	
+  	<select id="obtenerTipoUsuario" 
+            resultMap="rmUsuarioModel"
+            parameterType="java.lang.String">
+            
+            select u.dni as idsession, u.tipo as session, tu.descripcion 
+			from tb_usuario u 
+			inner join tb_tipoUsuario tu on u.tipo=tu.tipo 
+			where u.username=#{username}
+			
+    </select>
+    
+    <select id="obtenerDatos" 
+            resultMap="rmUsuarioModel"
+            parameterType="java.lang.String">
+
+			select u.dni, u.username, tu.descripcion 
+			from tb_usuario u 
+			inner join tb_tipoUsuario tu on u.tipo=tu.tipo 
+			where u.dni=#{dni}
+			
+    </select>
+    
+    
+    <select id="validarUsuario" 
+            resultMap="rmUsuarioModel"
+           	parameterType="usuario">
+			select count(*) as session
+			from tb_usuario
+			where username=#{username}
+			and password=#{password}
+    </select>
+    
+    
+    
+    
+</mapper>

@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+	<constant name="struts.custom.i18n.resources"	value="textos"/>
+	<constant name="struts.ui.theme" value="xhtml"/>
+  
+      <package name="struts-interceptores" extends="struts-default">
+        
+        <interceptors>
+            
+            <interceptor name="saludo" class="pe.edu.cibertec.interceptores.InterceptorSaludo" />
+            
+            <interceptor name="sesionValida" class="pe.edu.cibertec.interceptores.InterceptorAcceso" />
+            
+            <interceptor-stack name="defaultTimerStack">
+                <interceptor-ref name="sesionValida">
+                    <param name="actionsPublicos">login,publico</param>
+                </interceptor-ref>  
+
+                <interceptor-ref name="saludo" />
+                <interceptor-ref name="defaultStack" />
+                <interceptor-ref name="timer" />
+                <interceptor-ref name="logger" />
+            </interceptor-stack>
+        </interceptors>
+        <default-interceptor-ref name="defaultTimerStack" />
+        
+        <global-results>
+<!--             <result name="login">/index.jsp</result> -->
+			<result name="listUsuario">/usuarioListado.jsp</result>
+			<result name="editUsuario">/usuarioEdicion.jsp</result>
+			<result name="detailUsuario">/usuarioDetalle.jsp</result>
+
+        </global-results>
+
+        <action name="login" class="pe.edu.cibertec.action.LoginAction">
+			<result name="success">/index.jsp</result>
+			<result name="login">/loginE.html</result>
+			<result name="error">/noDisponible.jsp</result>
+        </action>
+			
+		<action name="consultarSolicitudFullxNro" class="pe.edu.cibertec.action.SolicitudAction" method="consultarSolicitudFullxNro">
+			<result name="success">/modificarSolicitud.jsp</result>
+			<result name="error">/modificarSolicitud.jsp</result>
+		</action>
+		
+		<action name="cconsultarTodos" class="pe.edu.cibertec.action.SolicitudAction" method="consultar">
+			<result name="success">/consultarSolicitudTodos.jsp</result>
+		</action>
+		<action name="cconsultarxDni" class="pe.edu.cibertec.action.SolicitudAction" method="consultar">
+			<result name="success">/consultarSolicitudxDni.jsp</result>
+		</action>
+		<action name="cconsultarxEstado" class="pe.edu.cibertec.action.SolicitudAction" method="consultar">
+			<result name="success">/consultarSolicitudxEstado.jsp</result>
+		</action>
+		<action name="cconsultarxNroSolicitud" class="pe.edu.cibertec.action.SolicitudAction" method="consultar">
+			<result name="success">/consultarSolicitudxNroSolicitud.jsp</result>
+		</action>
+	
+	
+		<action name="consultarSolicitudTodos" class="pe.edu.cibertec.action.SolicitudAction" method="listarSolicitudes">
+			<result name="success">/consultarSolicitudTodos.jsp</result>
+			<result name="error">/consultarSolicitudTodos.jsp</result>
+		</action>
+		<action name="consultarSolicitudxDni" class="pe.edu.cibertec.action.SolicitudAction" method="listarSolicitudesxDni">
+			<result name="success">/consultarSolicitudxDni.jsp</result>
+			<result name="error">/consultarSolicitudxDni.jsp</result>
+		</action>
+		<action name="consultarSolicitudxEstado" class="pe.edu.cibertec.action.SolicitudAction" method="listarSolicitudesxEstado">
+			<result name="success">/consultarSolicitudxEstado.jsp</result>
+			<result name="error">/consultarSolicitudxEstado.jsp</result>
+		</action>
+		<action name="consultarSolicitudxNroSolicitud" class="pe.edu.cibertec.action.SolicitudAction" method="listarSolicitudesxNroSolicitud">
+			<result name="success">/consultarSolicitudxNroSolicitud.jsp</result>
+			<result name="error">/consultarSolicitudxNroSolicitud.jsp</result>
+		</action>
+		
+		<action name="consultarSolicitante" class="pe.edu.cibertec.action.SolicitanteAction" method="consultar">
+			<result name="success">/registrarSolicitud.jsp</result>
+			<result name="error">/registrarSolicitud.jsp</result>			
+		</action>
+		
+	
+		<action name="consultarVehiculo" class="pe.edu.cibertec.action.VehiculoAction" method="consultar">
+			<result name="success">/registrarSolicitud.jsp</result>
+			<result name="error">/registrarSolicitud.jsp</result>			
+		</action>
+		    
+		<action name="registrarSolicitud" class="pe.edu.cibertec.action.SolicitudAction" method="insertar">
+ 			<result name="success">/registrarSolicitud.jsp</result> 
+			<result name="error">/registrarSolicitud.jsp</result>	
+		</action>
+		<action name="consultarSolicitudporNro" class="pe.edu.cibertec.action.SolicitudAction" method="getSolicitudPorNro">
+ 			<result name="success">/modificarSolicitud.jsp</result> 
+			<result name="error">/modificarSolicitud.jsp</result>	
+		</action>
+		<action name="consultarSolicitudporNroA" class="pe.edu.cibertec.action.SolicitudAction" method="getSolicitudPorNroA">
+ 			<result name="success">/actualizarSolicitud.jsp</result> 
+			<result name="error">/actualizarSolicitud.jsp</result>	
+		</action>
+		<action name="consultarSolicitud" class="pe.edu.cibertec.action.SolicitudAction" method="listarSolicitudes">
+ 			<result name="success">/consultarSolicitud.jsp</result> 
+			<result name="error">/consultarSolicitud.jsp</result>	
+		</action>
+       
+		<action name="eliminarSolicitud" class="pe.edu.cibertec.action.SolicitudAction" method="eliminar">
+			<result>/consultarSolicitud.jsp</result> 
+
+		</action>
+		
+		<action name="actualizarSolicitud" class="pe.edu.cibertec.action.SolicitudAction" method="actualizarEstado">
+		    <result name="success">/actualizarSolicitud.jsp</result>
+			<result name="error">/actualizarSolicitud.jsp</result>
+
+		</action>
+	
+		<action name="modificarSolicitud" class="pe.edu.cibertec.action.SolicitudAction" method="modificar">
+		    <result name="success">/modificarSolicitud.jsp</result>
+			<result name="error">/modificarSolicitud.jsp</result>
+		</action>
+		
+		<action name="idiomaIndex"  class="pe.edu.cibertec.action.MenuAction" method="obtenerDatosU">
+			<result  name="success">/index.jsp</result>
+		</action>	
+		
+		<action name="abrirArchivo">
+			<result>/consultarSolicitud.jsp</result>
+		</action>
+		
+		<action name="idiomaActualizar"  class="pe.edu.cibertec.action.MenuAction" method="obtenerDatosU">
+			<result  name="success">/actualizarSolicitud.jsp</result>
+		</action>		
+		
+		<action name="idiomaConsultar"  class="pe.edu.cibertec.action.MenuAction" method="obtenerDatosU">
+			<result  name="success">/consultarSolicitud.jsp</result>
+		</action>		
+		
+		<action name="idiomaModificar"  class="pe.edu.cibertec.action.MenuAction" method="obtenerDatosU">
+			<result  name="success">/modificarSolicitud.jsp</result>
+		</action>		
+
+		<action name="idiomaRegistrar"  class="pe.edu.cibertec.action.MenuAction" method="obtenerDatosU">
+			<result  name="success">/registrarSolicitud.jsp</result>
+		</action>
+
+		<action name="idiomaMantenimiento"  class="pe.edu.cibertec.action.MenuAction" method="obtenerDatosU">
+			<result  name="success">/usuarioListado.jsp</result>
+		</action>
+									
+		<action name="menuRegistrar" class="pe.edu.cibertec.action.MenuAction" method="validarRegistrar">
+ 			<result name="success">/registrarSolicitud.jsp</result> 
+			<result name="error">/errorPermisoUsuario.jsp</result>	
+		</action>
+		<action name="menuConsultar" class="pe.edu.cibertec.action.MenuAction" method="validarConsultar">
+ 			<result name="success">/consultarSolicitud.jsp</result> 
+			<result name="error">/errorPermisoUsuario.jsp</result>	
+		</action>
+		<action name="menuActualizar" class="pe.edu.cibertec.action.MenuAction" method="validarActualizar">
+ 			<result name="success">/actualizarSolicitud.jsp</result> 
+			<result name="error">/errorPermisoUsuario.jsp</result>	
+		</action>
+		<action name="menuModificar" class="pe.edu.cibertec.action.MenuAction" method="validarModificar">
+ 			<result name="success">/modificarSolicitud.jsp</result> 
+			<result name="error">/errorPermisoUsuario.jsp</result>	
+		</action>
+		<action name="menuMantenimiento" class="pe.edu.cibertec.action.MenuAction" method="validarMantenimiento">
+ 			<result name="success">/usuarioListado.jsp</result> 
+			<result name="error">/errorPermisoUsuario.jsp</result>	
+		</action>
+		<action name="menuInicio" class="pe.edu.cibertec.action.MenuAction" method="validarIndex" >
+ 			<result name="success">/index.jsp</result> 
+		</action>
+		
+		<action name="cerrarSesion" class="pe.edu.cibertec.action.LoginAction" method="cerrarSesion">
+ 			<result>/login.html</result> 
+		</action>
+		
+		
+		<action name="buscarUsuarios" class="pe.edu.cibertec.action.UsuarioAction" method="buscarUsuarios">
+		<result name="listUsuario">/usuarioListado.jsp</result>
+		<result name="error">/usuarioListado.jsp</result>
+		</action>
+		<action name="verDetalleUsuario" class="pe.edu.cibertec.action.UsuarioAction" method="buscarUsuarioById">
+		<result name="detailUsuario">/usuarioDetalle.jsp</result>
+		<result name="error">/usuarioDetalle.jsp</result>
+		</action>
+		<action name="eliminarUsuario" class="pe.edu.cibertec.action.UsuarioAction" method="eliminar">
+		<result name="listUsuario">/usuarioListado.jsp</result>
+		<result name="error">/usuarioListado.jsp</result>
+		</action>
+		<action name="cargarUsuario" class="pe.edu.cibertec.action.UsuarioAction" method="cargarUsuario">
+		<result name="editUsuario">/usuarioEdicion.jsp</result>
+		<result name="error">/usuarioEdicion.jsp</result>
+		</action>
+		<action name="saveUsuario" class="pe.edu.cibertec.action.UsuarioAction" method="save">
+		<result name="listUsuario">/usuarioNuevo.jsp</result>
+		<result name="error">/usuarioNuevo.jsp</result>
+		</action>
+		<action name="updateUsuario" class="pe.edu.cibertec.action.UsuarioAction" method="update">
+		<result name="listUsuario">/usuarioEdicion.jsp</result>
+		<result name="error">/usuarioEdicion.jsp</result>
+		</action>
+		<action name="nuevoUsuario">
+		<result>/usuarioNuevo.jsp</result>
+		</action>
+		<action name="editarUsuario">
+		<result>/usuarioEdicion.jsp</result>
+		</action>		
+		
+	</package>
+</struts>
